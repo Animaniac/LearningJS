@@ -14,8 +14,18 @@ form.addEventListener('submit', e => {
         }
     });
     
-    results.querySelector('span').textContent = `${score}%`;
     results.classList.remove('d-none');
     
-    console.log(score);
+    scrollTo(0,0);
+
+    let output = 0;
+
+    const timer = setInterval(() => {
+        results.querySelector('span').textContent = `${output}%`;    
+        if(output === score){
+            clearInterval(timer);
+        } else {
+            output++;
+        }
+    }, 10);
 });
