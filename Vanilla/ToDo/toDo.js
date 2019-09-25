@@ -22,5 +22,14 @@ addForm.addEventListener('submit', e => {
 
     if(toDoItem.length){
         generateToDoTemplate(toDoItem)
+        addForm.reset();
     }    
 });
+
+toDoList.addEventListener('click', e =>{
+
+    if(e.target.classList.contains('delete')){
+        e.target.parentElement.remove();
+    }
+
+})
