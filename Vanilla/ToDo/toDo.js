@@ -1,6 +1,6 @@
 const addForm = document.querySelector('.add');
 const toDoList = document.querySelector('.todos');
-
+const search = document.querySelector('.search input');
 
 const generateToDoTemplate = toDoItem => {
     
@@ -21,7 +21,7 @@ addForm.addEventListener('submit', e => {
     
 
     if(toDoItem.length){
-        generateToDoTemplate(toDoItem)
+        generateToDoTemplate(toDoItem);
         addForm.reset();
     }    
 });
@@ -32,4 +32,21 @@ toDoList.addEventListener('click', e =>{
         e.target.parentElement.remove();
     }
 
-})
+});
+
+const filterToDos = term => {
+    Array.from(toDoList.children)
+    .filter(toDO => !toDO.textContent.includes(term))
+    .forEach(toDo => toDo.classList.add('filtered'));
+    console.log(1);
+    Array.from(toDoList.children)
+    .filter(toDO => toDO.textContent.includes(term))
+    .forEach(toDo => toDo.classList.remove('filtered')); 
+};
+
+search.addEventListener('keyup', () =>{
+    const term = search.value.trim();
+    console.log(term);
+    filterToDos(term);
+});
+
