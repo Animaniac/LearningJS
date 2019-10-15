@@ -34,16 +34,16 @@ toDoList.addEventListener('click', e =>{
 
 const filterToDos = term => {
     Array.from(toDoList.children)
-    .filter(toDo => !toDo.textContent.includes(term))
+    .filter(toDo => !toDo.textContent.toLowerCase().includes(term))
     .forEach(toDo => toDo.classList.add('filtered'));
     
     Array.from(toDoList.children)
-    .filter(toDo => toDo.textContent.includes(term))
+    .filter(toDo => toDo.textContent.toLowerCase().includes(term))
     .forEach(toDo => toDo.classList.remove('filtered')); 
 };
 
 search.addEventListener('keyup', () =>{
-    const term = search.value.trim();
+    const term = search.value.trim().toLowerCase();
     console.log(term);
     filterToDos(term);
 });
