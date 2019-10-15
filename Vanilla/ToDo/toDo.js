@@ -27,20 +27,18 @@ addForm.addEventListener('submit', e => {
 });
 
 toDoList.addEventListener('click', e =>{
-
     if(e.target.classList.contains('delete')){
         e.target.parentElement.remove();
     }
-
 });
 
 const filterToDos = term => {
     Array.from(toDoList.children)
-    .filter(toDO => !toDO.textContent.includes(term))
+    .filter(toDo => !toDo.textContent.includes(term))
     .forEach(toDo => toDo.classList.add('filtered'));
-    console.log(1);
+    
     Array.from(toDoList.children)
-    .filter(toDO => toDO.textContent.includes(term))
+    .filter(toDo => toDo.textContent.includes(term))
     .forEach(toDo => toDo.classList.remove('filtered')); 
 };
 
