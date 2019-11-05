@@ -11,13 +11,15 @@ const getCity = async city => {
 const getWeather = async cityKey => {
   const base = 'http://dataservice.accuweather.com/currentconditions/v1/';
   const query = `${cityKey}?apikey=${key}`;
+
   const response = await fetch(base + query);
   const data = await response.json();
   return data[0];
 };
 
-getCity('manchester')
-  .then(data => getWeather(data.Key)
-  .then(data => console.log(data)))
-  .catch(error => console.log(error));
+getCity('manchester').then(data => {
+    return getWeather(data.Key)
+}).then(data => {
+  console.log(data);
+}).catch(error => console.log(error));
 
