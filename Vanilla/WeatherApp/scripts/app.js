@@ -21,6 +21,7 @@ const updateUI = (data) => {
 
     time.setAttribute('src', timeSrc);
     icon.setAttribute('src', iconSrc);
+    
     if(card.classList.contains('d-none')){
         card.classList.remove('d-none');
     }
