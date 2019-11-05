@@ -14,6 +14,10 @@ const updateUI = (data) => {
         <span>&deg;C</span>
         </div>
     `;
+
+    if(card.classList.contains('d-none')){
+        card.classList.remove('d-none');
+    }
 }
 
 const updateCity = async city => {
