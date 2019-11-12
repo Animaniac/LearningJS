@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>Document</title>
+    <script src="app.js"></script>
+</head>
+<body>
+    <div class="container my-5">
+        <h2>Recipes</h2>
+        <ul>
+            <li>Pie</li>
+            <li>Toast</li>
+        </ul>
+        <form>
+            <label for="recipe">Add new recipe</label>
+        </form>
+    </div>   
+
+
+    <script src="https://www.gstatic.com/firebasejs/7.3.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.3.0/firebase-firestore.js"></script>
+
+    <script>
+    var firebaseConfig = {
+        apiKey: "AIzaSyDAcrRSHo-_T1LXLrVtCMU9dDA84iQAgsI",
+        authDomain: "learningjs-9818d.firebaseapp.com",
+        databaseURL: "https://learningjs-9818d.firebaseio.com",
+        projectId: "learningjs-9818d",
+        storageBucket: "learningjs-9818d.appspot.com",
+        messagingSenderId: "821769913634",
+        appId: "1:821769913634:web:0a1c859e2b5c24eea8517b"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+    </script>
+</body>
+</html>
