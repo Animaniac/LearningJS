@@ -9,7 +9,7 @@ const findMaxSequence = (numbers =>{
   let prev = 0;  
 
   orderedNumbers.forEach(currnum => {
-    if(currnum - prev !== 1) numbersets.push([]);
+    if(currnum - prev != 1) numbersets.push([]);
 
     numbersets[numbersets.length -1].push(currnum);
 
