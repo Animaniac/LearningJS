@@ -70,7 +70,7 @@ function solution(input){
       const entries = Array.from(input.trim().replace(/\D/g,''));
       let permutations = [];      
       function permute(array, permutation = ""){
-        console.log("permutatinos start ",permutation);
+        console.log("permutation start ",permutation);
         if(array.length === 0){
           permutations.push(permutation);
         }else{
