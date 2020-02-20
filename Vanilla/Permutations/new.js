@@ -66,6 +66,7 @@ function solution(input){
   };
   
   //implimentation of https://i.stack.imgur.com/F0lDq.jpg
+  //https://rob-bell.net/2009/06/a-beginners-guide-to-big-o-notation/
   function solution2(input){
       const entries = Array.from(input.trim().replace(/\D/g,''));
       let permutations = [];      
@@ -86,7 +87,30 @@ function solution(input){
       permute(entries);
       console.log(permutations.toString());
 };
-    
+function solutionComments(input){
+  document.clear();
+  document.writeln("<pre>");
+    const entries = Array.from(input.trim().replace(/\D/g,''));
+    let permutations = [];      
+    function permute(array, permutation = ""){
+      document.writeln("current permutation",permutation);
+      if(array.length === 0){
+        permutations.push(permutation);
+      }else{
+        for(let i = 0; i < array.length; i++){
+          let digitsToProcess = array.slice();
+          document.writeln("digitsToProcess " + digitsToProcess);
+          let firstDigit = digitsToProcess.splice(i,1); 
+          document.writeln("firstDigit ", firstDigit);
+          document.writeln("permutations ", permutations);          
+          permute(digitsToProcess.slice(), permutation.concat(firstDigit));
+          }
+      }
+    }
+    permute(entries);
+    console.log(permutations.toString());
+  document.writeln("</pre>");
+};
 
 function rhysSolution(input){
   const entries = Array.from(input.trim().replace(/\D/g,''));
