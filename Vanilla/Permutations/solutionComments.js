@@ -26,3 +26,10 @@ function solutionComments(input){
     console.log(permutations.toString());
 document.writeln("</pre>");
 };
+
+//            123
+//     ________|_________
+//     |       |        |
+//   _123_   _213_    _312_
+//   |   |   |   |    |   |
+//  123 132 213 231 312  321 
