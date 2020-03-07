@@ -1,5 +1,5 @@
 
-const convertForm = document.getElementById('convertForm');
+const exchangeForm = document.getElementById('exchangeForm');
 const filterForm = document.getElementById('filterForm');
 const currencyFrom = document.getElementById('currFrom');
 const currencyTo = document.getElementById('currTo');
@@ -7,7 +7,6 @@ const result = document.getElementById('result');
 const logTable = document.getElementById('logBody');
 const dateFrom = document.getElementById('dateFrom');
 const dateTo = document.getElementById('dateTo');
-
 
 
 //included some dummy data so you can filter it
@@ -21,14 +20,14 @@ let logs = [{
   result: 500
 }];
 
-const exchangeRateToGBP = {
+const exchangeRatesToGBP = {
   GBP: 1,
   EUR: 1.25,
   USD: 1.5,
   AUD: 2
-}
+};
 
-const convertCurrency = (amount,from,to) => convertedAmount = exchangeRateToGBP[to] / exchangeRateToGBP[from] * amount;
+const exchangeCurrency = (amount,from,to) => exchangeRatesToGBP[to] / exchangeRatesToGBP[from] * amount;
 
 const formatCurrency = (amount, currency) => {
   return new Intl.NumberFormat('en-GB', 
@@ -47,42 +46,42 @@ const setOptions = (currencies, element) => {
   };
 };
 
-const createLog = conversionDetails => {
+const createLog = exchangeDetails => {
   const logged = new Date();
   const formattedTime = `${logged.getHours()}:${logged.getMinutes()}`;
 
   logs.push({
     date: logged.toLocaleDateString('en-GB'),
     time: formattedTime,
-    currFrom: conversionDetails.currencyFrom,
-    currTo: conversionDetails.currencyTo,
-    rate: conversionDetails.rate,
-    amount: conversionDetails.amountToConvert,
-    result: conversionDetails.convertedAmount
+    currFrom: exchangeDetails.currencyFrom,
+    currTo: exchangeDetails.currencyTo,
+    rate: exchangeDetails.rate,
+    amount: exchangeDetails.amountToexchange,
+    result: exchangeDetails.exchangeedAmount
   });
 };
 
-convertForm.addEventListener('submit', e => {
+exchangeForm.addEventListener('submit', e => {
   e.preventDefault();
-  const amount = convertForm.fromAmount.value;
+  const amount = exchangeForm.fromAmount.value;
   const curFrom = currencyFrom.value;
   const currTo = currencyTo.value;
 
-  let convertedAmount = convertCurrency(amount, curFrom, currTo);
-  let formattedAmount = formatCurrency(convertedAmount, currTo);
+  let exchangeedAmount = exchangeCurrency(amount, curFrom, currTo);
+  let formattedAmount = formatCurrency(exchangeedAmount, currTo);
 
-  let conversionDetails = {
+  let exchangeDetails = {
     currencyFrom: curFrom,
     currencyTo: currTo,
-    amountToConvert: amount,
-    convertedAmount: convertedAmount,
-    rate: convertedAmount/amount
+    amountToexchange: amount,
+    exchangeedAmount: exchangeedAmount,
+    rate: exchangeedAmount/amount
   }
 
-  result.textContent = `Converted amount is: ${formattedAmount}`;
-  createLog(conversionDetails);
+  result.textContent = `exchangeed amount is: ${formattedAmount}`;
+  createLog(exchangeDetails);
   displayLogs(logs);
-  //convertForm.reset();
+  //exchangeForm.reset();
 });
 
 filterForm.addEventListener('submit', e => {
@@ -91,7 +90,7 @@ filterForm.addEventListener('submit', e => {
   filterLogs(dateFrom.value,dateTo.value);
 
   filterForm.reset();
-})
+});
 
 const displayLogs = logList => {  
   logTable.innerHTML = "";
@@ -114,12 +113,15 @@ const displayLogs = logList => {
 
 const filterLogs = (dateFrom, dateTo) => {
   let filteredLogs = [...logs].filter(log => {
-    return new Date(log.date).getTime() <= new Date(dateTo).getTime() && new Date(log.date).getTime() >= new Date(dateFrom).getTime();
+    let logTime = new Date(log.date).getTime();
+    console.log(log.date,"log date >= fromDate", new Date(log.date) >= new Date(dateFrom));
+    console.log(log.date,"log date <= toDate", new Date(log.date) >= new Date(dateTo));
+    return logTime <= new Date(dateTo).getTime() && logTime >= new Date(dateFrom).getTime();
   });
-  console.log(filteredLogs);
+
   displayLogs(filteredLogs);
 };
 
-setOptions(exchangeRateToGBP, currencyFrom);
-setOptions(exchangeRateToGBP, currencyTo);
+setOptions(exchangeRatesToGBP, currencyFrom);
+setOptions(exchangeRatesToGBP, currencyTo);
 displayLogs(logs);

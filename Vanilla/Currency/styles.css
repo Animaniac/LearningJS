@@ -9,11 +9,3 @@ form{
   max-width: 70%;
   margin: 0 auto;
 }
-
-input:invalid {
-  border: 1px solid red;
-}
-
-input:valid {
-  border: 1px solid black;
-}
