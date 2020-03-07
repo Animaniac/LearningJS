@@ -7,6 +7,11 @@ const logTable = document.getElementById('logBody');
 const dateFrom = document.getElementById('dateFrom');
 const dateTo = document.getElementById('dateTo');
 
+
+//need to sort the global state.
+//when adding a new exchange it stops filtering, maybe make the filter permanent?
+
+
 let logs = [{
   date: new Date(2019,00,01),
   time: '11:30',
@@ -46,7 +51,6 @@ const setOptions = (currencies, element) => {
 
 const createLog = exchangeDetails => {
   const logged = new Date();
-  const formattedTime = `${logged.getHours()}:${logged.getMinutes()}`;
 
   logs.push({
     date: logged,
@@ -109,7 +113,7 @@ const displayLogs = logList => {
 };
 
 const filterLogs = (dateFrom, dateTo) => {
-  let filteredLogs = [...logs].filter(log => {
+  let filteredLogs = logs.filter(log => {
     return log.date >= dateFrom && log.date <= dateTo;
   });
 
