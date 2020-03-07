@@ -1,4 +1,3 @@
-
 const exchangeForm = document.getElementById('exchangeForm');
 const filterForm = document.getElementById('filterForm');
 const currencyFrom = document.getElementById('currFrom');
@@ -8,10 +7,8 @@ const logTable = document.getElementById('logBody');
 const dateFrom = document.getElementById('dateFrom');
 const dateTo = document.getElementById('dateTo');
 
-
-//included some dummy data so you can filter it
 let logs = [{
-  date: '01/01/2019',
+  date: new Date(2019,00,01),
   time: '11:30',
   currFrom: 'GBP',
   currTo: 'AUD',
@@ -27,7 +24,8 @@ const exchangeRatesToGBP = {
   AUD: 2
 };
 
-const exchangeCurrency = (amount,from,to) => exchangeRatesToGBP[to] / exchangeRatesToGBP[from] * amount;
+const exchangeCurrency = (amount,from,to) => 
+  exchangeRatesToGBP[to] / exchangeRatesToGBP[from] * amount;
 
 const formatCurrency = (amount, currency) => {
   return new Intl.NumberFormat('en-GB', 
@@ -51,8 +49,7 @@ const createLog = exchangeDetails => {
   const formattedTime = `${logged.getHours()}:${logged.getMinutes()}`;
 
   logs.push({
-    date: logged.toLocaleDateString('en-GB'),
-    time: formattedTime,
+    date: logged,
     currFrom: exchangeDetails.currencyFrom,
     currTo: exchangeDetails.currencyTo,
     rate: exchangeDetails.rate,
@@ -87,7 +84,7 @@ exchangeForm.addEventListener('submit', e => {
 filterForm.addEventListener('submit', e => {
   e.preventDefault();
 
-  filterLogs(dateFrom.value,dateTo.value);
+  filterLogs(new Date(dateFrom.value), new Date(dateTo.value));
 
   filterForm.reset();
 });
@@ -95,28 +92,25 @@ filterForm.addEventListener('submit', e => {
 const displayLogs = logList => {  
   logTable.innerHTML = "";
   Array.from(logList, log => {
-  let logHtml = `
-    <tr>
-      <td>${log.date}</td>
-      <td>${log.time}</td>
-      <td>${log.currFrom}</td>
-      <td>${log.currTo}</td>
-      <td>${log.rate}</td>
-      <td>${log.amount}</td>
-      <td>${log.result}</td>
-    </tr>
-  `;
-  
-  logTable.innerHTML += logHtml;
+    let logHtml = `
+      <tr>
+        <td>${log.date.toLocaleDateString()}</td>
+        <td>${log.date.getHours()}:${log.date.getMinutes()}</td>
+        <td>${log.currFrom}</td>
+        <td>${log.currTo}</td>
+        <td>${log.rate}</td>
+        <td>${log.amount}</td>
+        <td>${log.result}</td>
+      </tr>
+    `;
+    
+    logTable.innerHTML += logHtml;
   });
 };
 
 const filterLogs = (dateFrom, dateTo) => {
   let filteredLogs = [...logs].filter(log => {
-    let logTime = new Date(log.date).getTime();
-    console.log(log.date,"log date >= fromDate", new Date(log.date) >= new Date(dateFrom));
-    console.log(log.date,"log date <= toDate", new Date(log.date) >= new Date(dateTo));
-    return logTime <= new Date(dateTo).getTime() && logTime >= new Date(dateFrom).getTime();
+    return log.date >= dateFrom && log.date <= dateTo;
   });
 
   displayLogs(filteredLogs);
