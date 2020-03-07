@@ -4,8 +4,20 @@ const filterForm = document.getElementById('filterForm');
 const currencyFrom = document.getElementById('currFrom');
 const currencyTo = document.getElementById('currTo');
 const result = document.getElementById('result');
-const logs = document.getElementById('logBody');
+const logTable = document.getElementById('logBody');
+const dateFrom = document.getElementById('fromDate');
+const dateTo = document.getElementById('toDate');
 
+//included some dummy data so you can filter it
+let logs = [{
+  date: '01/01/2019',
+  time: '11:30',
+  currFrom: 'GBP',
+  currTo: 'AUD',
+  rate: 2,
+  amount: 1000,
+  result: 500
+}];
 
 const exchangeRateToGBP = {
   GBP: 1,
@@ -33,24 +45,19 @@ const setOptions = (currencies, element) => {
   };
 };
 
-setOptions(exchangeRateToGBP, currencyFrom);
-setOptions(exchangeRateToGBP, currencyTo);
-{/* <td>${loggedTime.getDate()}/${loggedTime.getMonth()}/${loggedTime.getFullYear()}</td> */}
 const createLog = conversionDetails => {
-  const loggedTime = new Date();
-  const fomrattedTime = `${loggedTime.getHours()}:${loggedTime.getMinutes()}` 
-  const logHtml = `
-    <tr>
-      <td>${loggedTime.toLocaleDateString()}</td>
-      <td>${fomrattedTime}</td>
-      <td>${conversionDetails.currencyFrom}</td>
-      <td>${conversionDetails.currencyTo}</td>
-      <td>${conversionDetails.rate}</td>
-      <td>${conversionDetails.amountToConvert}</td>
-      <td>${conversionDetails.convertedAmount}</td>
-    </tr>
-  `;
-  logs.innerHTML += logHtml;
+  const logged = new Date();
+  const formattedTime = `${logged.getHours()}:${logged.getMinutes()}`;
+
+  logs.push({
+    date: logged.toLocaleDateString(),
+    time: formattedTime,
+    currFrom: conversionDetails.currencyFrom,
+    currTo: conversionDetails.currencyTo,
+    rate: conversionDetails.rate,
+    amount: conversionDetails.amountToConvert,
+    result: conversionDetails.convertedAmount
+  });
 };
 
 convertForm.addEventListener('submit', e => {
@@ -66,22 +73,52 @@ convertForm.addEventListener('submit', e => {
     currencyFrom: curFrom,
     currencyTo: currTo,
     amountToConvert: amount,
-    convertedAmount: formattedAmount,
+    convertedAmount: convertedAmount,
     rate: convertedAmount/amount
   }
 
   result.textContent = `Converted amount is: ${formattedAmount}`;
   createLog(conversionDetails);
-  //make the covnert async
-  //log async?
-  //logger.CreateLog(conversionDetails);
-  
-  //cant decide if this is useful or annoying.
+  displayLogs(logs);
   //convertForm.reset();
 });
 
 filterForm.addEventListener('submit', e => {
   e.preventDefault();
 
+  filterLogs(dateFrom,dateTo);
+
   filterForm.reset();
 })
+
+const displayLogs = logList => {  
+  logTable.innerHTML = "";
+  let logArray = Array.from(logList, log => {
+  let logHtml = `
+    <tr>
+      <td>${log.date}</td>
+      <td>${log.time}</td>
+      <td>${log.currFrom}</td>
+      <td>${log.currTo}</td>
+      <td>${log.rate}</td>
+      <td>${log.amount}</td>
+      <td>${log.result}</td>
+    </tr>
+  `;
+  
+  logTable.innerHTML += logHtml;
+  });
+};
+
+const filterLogs = (dateFrom, dateTo) => {
+  let filteredLogs = [...logs].filter(log => {
+    console.log(log.date, dateTo, dateFrom  );
+    log.date <= dateTo && log.date >= dateFrom;
+  });
+  console.log(filteredLogs);
+  displayLogs(filteredLogs);
+};
+
+setOptions(exchangeRateToGBP, currencyFrom);
+setOptions(exchangeRateToGBP, currencyTo);
+displayLogs(logs);
