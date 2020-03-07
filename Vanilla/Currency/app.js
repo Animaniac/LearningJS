@@ -5,8 +5,10 @@ const currencyFrom = document.getElementById('currFrom');
 const currencyTo = document.getElementById('currTo');
 const result = document.getElementById('result');
 const logTable = document.getElementById('logBody');
-const dateFrom = document.getElementById('fromDate');
-const dateTo = document.getElementById('toDate');
+const dateFrom = document.getElementById('dateFrom');
+const dateTo = document.getElementById('dateTo');
+
+
 
 //included some dummy data so you can filter it
 let logs = [{
@@ -50,7 +52,7 @@ const createLog = conversionDetails => {
   const formattedTime = `${logged.getHours()}:${logged.getMinutes()}`;
 
   logs.push({
-    date: logged.toLocaleDateString(),
+    date: logged.toLocaleDateString('en-GB'),
     time: formattedTime,
     currFrom: conversionDetails.currencyFrom,
     currTo: conversionDetails.currencyTo,
@@ -86,14 +88,14 @@ convertForm.addEventListener('submit', e => {
 filterForm.addEventListener('submit', e => {
   e.preventDefault();
 
-  filterLogs(dateFrom,dateTo);
+  filterLogs(dateFrom.value,dateTo.value);
 
   filterForm.reset();
 })
 
 const displayLogs = logList => {  
   logTable.innerHTML = "";
-  let logArray = Array.from(logList, log => {
+  Array.from(logList, log => {
   let logHtml = `
     <tr>
       <td>${log.date}</td>
@@ -112,8 +114,7 @@ const displayLogs = logList => {
 
 const filterLogs = (dateFrom, dateTo) => {
   let filteredLogs = [...logs].filter(log => {
-    console.log(log.date, dateTo, dateFrom  );
-    log.date <= dateTo && log.date >= dateFrom;
+    return new Date(log.date).getTime() <= new Date(dateTo).getTime() && new Date(log.date).getTime() >= new Date(dateFrom).getTime();
   });
   console.log(filteredLogs);
   displayLogs(filteredLogs);
